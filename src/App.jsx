@@ -1,9 +1,11 @@
+import { PhoneBook } from "./components/PhoneBook/PhoneBook"  
+import styles from './main.module.css'
 function App() {
 
   return (
-    <>
-      <h1>hello world</h1>
-    </>
+    <div className={styles.root}>
+      <PhoneBook/>
+    </div>
   )
 }
 
