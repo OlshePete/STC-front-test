@@ -36,6 +36,8 @@
 
 ### Demo
 
+[latest](https://stc-front-test.vercel.app/)
+
 ### Запуск development
 
 ### Запуск production
