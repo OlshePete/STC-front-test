@@ -14,6 +14,7 @@ import {
 import styles from "./TableView.module.css";
 
 import headIcon from "../../assets/icons/table-head-image.svg";
+import blankImage from "../../assets/image/blank-image.png";
 import { phoneFormat } from "../../utils/formUtils";
 
 function TableView({ setActive }) {
@@ -106,11 +107,7 @@ function TableView({ setActive }) {
               return (
                 <tr key={index} onClick={() => setActive(note)}>
                   <th className={styles.avatarColumn}>
-                    {image ? (
-                      <img alt="avatar" src={image} />
-                    ) : (
-                      <h4>{`${first_name ?? ""}${last_name}`[0]}</h4>
-                    )}
+                      <img alt="avatar" src={image ?? blankImage} />
                   </th>
                   <th className={styles.fullName}>{fullName}</th>
                   <th className={styles.phone}>{formattedNumber}</th>
@@ -129,10 +126,9 @@ function TableView({ setActive }) {
 
           {page_status.loading && (
             <tr>
-              {" "}
               <th colSpan={6} style={{ textAlign: "center" }}>
                 загрузка данных...
-              </th>{" "}
+              </th>
             </tr>
           )}
           {!page_status.loading && page_status.query.length>0 && has_result && (

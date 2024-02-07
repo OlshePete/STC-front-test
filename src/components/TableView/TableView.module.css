@@ -134,8 +134,7 @@ tr>.actionCell>button {
 }
 
 tbody>tr>.avatarColumn>* {
-  background-color: teal;
-  color: white;
+  color: #273B69;
   border-radius: 50%;
   font-weight: 600;
   font-size: 2rem;
