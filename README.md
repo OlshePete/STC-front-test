@@ -56,9 +56,9 @@ cd STC-front-test
   </li>
   <li>Установите все зависимости, указанные в файле package.json, выполнив команду
 
-    ```bash
-    npm install
-    ```
+```bash
+npm install
+```
 
 </li>
 </ol>
