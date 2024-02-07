@@ -45,13 +45,13 @@
 <ol>
   <li>Распакуйте архив или скачайте с удаленного репозитория и перейдите в папку с проектом
   
-    ```bash
-    git clone https://github.com/OlshePete/STC-front-test.git
-    ```
+```bash
+git clone https://github.com/OlshePete/STC-front-test.git
+```
 
-    ```bash
-    cd STC-front-test
-    ```
+```bash
+cd STC-front-test
+```
 
   </li>
   <li>Установите все зависимости, указанные в файле package.json, выполнив команду
