@@ -131,7 +131,7 @@ function TableView({ setActive }) {
               </th>
             </tr>
           )}
-          {!page_status.loading && page_status.query.length>0 && has_result && (
+          {!page_status.loading && page_status.query.length>0 && inView.length===0 && (
             <tr>
               <th colSpan={6} style={{ textAlign: "center" }}>
                 нет совпадений
