@@ -1,7 +1,5 @@
-/* Modal.module.css */
-
 .modalOverlay {
-  z-index: 3;
+  z-index: 4;
   position: fixed;
   top: 0;
   left: 0;
@@ -15,15 +13,14 @@
 
 .modalContainer {
   z-index: 4;
-
   background: white;
   opacity: 1;
   padding: 30px 66px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  max-width: 430px;
-  width: 100%;
+  width: 430px;
   text-align: center;
+  justify-content: center;
   display: flex;
   flex-direction: column;
   gap: 20px
@@ -37,7 +34,7 @@
 
 .modalContent {
   margin: 0 20px;
-  outline: 1px dashed;
+  padding: 0 4px;
   display: flex;
   flex-direction: column;
 }
@@ -64,5 +61,3 @@
   background-color: teal;
   color: white;
 }
-
-/* Add more styles as needed */

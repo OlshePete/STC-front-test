@@ -1,257 +1,33 @@
+import { useEffect, useRef, useState } from "react";
 import Modal from "../Dialogs/Modal";
-import { SearchBar } from "../SearchBar/SearchBar";
 import { TableView } from "../TableView/TableView";
+import { useSelector } from "react-redux";
 
-import styles from "./styles.module.css";
+import styles from "./PhoneBook.module.css";
+import AppBar from "../AppBar/AppBar";
 
-const dataset = [
-  {
-    first_name: "Александра",
-    last_name: "Кукушкина",
-    patronymic: "Валерьевна",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Александр",
-    last_name: "Смирнов",
-    patronymic: "Иванович",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Анна",
-    last_name: "Кузнецова",
-    patronymic: "Петровна",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Михаил",
-    last_name: "Федоров",
-    patronymic: "Васильевич",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Екатерина",
-    last_name: "Соколова",
-    patronymic: "Андреевна",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Иван",
-    last_name: "Попов",
-    patronymic: "Александрович",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Алексей",
-    last_name: "Васнецов",
-    patronymic: "Николаевич",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Ольга",
-    last_name: "Михайлова",
-    patronymic: "Александровна",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Дмитрий",
-    last_name: "Павлов",
-    patronymic: "Сергеевич",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Елена",
-    last_name: "Сергеева",
-    patronymic: "Анатольевна",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Сергей",
-    last_name: "Новиков",
-    patronymic: "Алексеевич",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Татьяна",
-    last_name: "Смирнова",
-    patronymic: "Владимировна",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Артем",
-    last_name: "Николаев",
-    patronymic: "Павлович",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Наталья",
-    last_name: "Волкова",
-    patronymic: "Алексеевна",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Владимир",
-    last_name: "Козлов",
-    patronymic: "Васильевич",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Юлия",
-    last_name: "Киселева",
-    patronymic: "Дмитриевна",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Андрей",
-    last_name: "Семенов",
-    patronymic: "Николаевич",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Мария",
-    last_name: "Соловьева",
-    patronymic: "Александровна",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Николай",
-    last_name: "Зайцев",
-    patronymic: "Васильевич",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Анастасия",
-    last_name: "Лебедева",
-    patronymic: "Владимировна",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Константин",
-    last_name: "Морозов",
-    patronymic: "Валентинович",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Людмила",
-    last_name: "Петрова",
-    patronymic: "Григорьевна",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Павел",
-    last_name: "Соколов",
-    patronymic: "Владимирович",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Светлана",
-    last_name: "Васильева",
-    patronymic: "Игоревна",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Виктор",
-    last_name: "Крылов",
-    patronymic: "Иванович",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Ирина",
-    last_name: "Семенова",
-    patronymic: "Александровна",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Александра",
-    last_name: "Голубева",
-    patronymic: "Сергеевна",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Григорий",
-    last_name: "Комаров",
-    patronymic: "Михайлович",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Валентина",
-    last_name: "Тихонова",
-    patronymic: "Анатольевна",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-  {
-    first_name: "Роман",
-    last_name: "Белов",
-    patronymic: "Владимирович",
-    phoneNumber: (()=>"9" + Math.floor(100000000 + Math.random() * 900000000))(),
-    address:"Санкт-Петербург, ул. Салова д.4, кв. 23",
-    mail: "1234@mail.ru",
-  },
-];
 function PhoneBook() {
+  const containerRef = useRef(null);
+  const [active, setActive] = useState(null);
+  const mode = useSelector((state) => state.phoneBook.mode);
+  useEffect(() => {
+    if (mode && mode !== "view" && mode !== "edit") setActive({});
+  }, [mode]);
+
   return (
-    <div className={styles.container}>
-      <SearchBar />
-      <TableView list={dataset} />
-      <Modal/>
+    <div className={styles.container} ref={containerRef}>
+      <AppBar />
+      <TableView setActive={setActive} />
+      {active && (
+        <Modal
+          mode={mode}
+          note={active}
+          onClose={() => setActive(null)}
+          onSubmit={() => {
+            setActive(null);
+          }}
+        />
+      )}
     </div>
   );
 }

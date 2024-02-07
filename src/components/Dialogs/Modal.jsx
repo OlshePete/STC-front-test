@@ -1,49 +1,75 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from "react-redux";
 import styles from './Modal.module.css';
-import RecordForm from '../RecordForm/RecordForm';
+import ContactForm from '../ContactForm/ContactForm';
+import ContactView from '../ContactView/ContactView';
+import { setModeType } from '../../store/mainSlice';
 
-const Modal = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const getLabel = (mode) => {
+ switch (mode) {
+  case "view":
+    return "Просмотр контакта";
+  case "edit":
+    return "Редактировать контакт";
+  case "create":
+    return "Добавить контакт";
+  case "export":
+    return "Экспортировать контакты";
+  case "import":
+    return "Импортировать контакты";
+  default:
+    return
+}
+}
 
-  const openModal = () => {
-    setIsOpen(true);
-  };
+const getView = (mode, contact, onSubmit, closeModal) => {
+   switch (mode) {
+  case "view":
+    return <ContactView  contact={contact} closeModal={closeModal}/>;
+  case "edit":
+    return <ContactForm  contact={contact} onSubmit={onSubmit} closeModal={closeModal} />;
+  case "create":
+    return <ContactForm  contact={{}} onSubmit={onSubmit}  closeModal={closeModal}/>;
+  case "export":
+  case "import":
+  default:
+    return
+}
+}
 
+const Modal = ({mode, note, onClose, onSubmit}) => {
+  const [isOpen, setIsOpen] = useState(true);
+  const dispatch = useDispatch()
   const closeModal = () => {
-    setIsOpen(false);
+    dispatch(setModeType('view'))
+    setIsOpen(false)
+    onClose();
   };
 
   useEffect(() => {
     const handleScroll = () => {
       document.body.style.overflow = isOpen ? 'hidden' : 'auto';
     };
-
     window.addEventListener('scroll', handleScroll);
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [isOpen]);
+  
   return (
     <div>
-      <button onClick={openModal}>Open Modal</button>
-      {isOpen && (
         <div className={styles.modalOverlay} onClick={closeModal}>
           <div className={styles.modalContainer} onClick={(e) => e.stopPropagation()}>
-            <h2>Редактировать пользователя</h2>
-            <div className={styles.imageWrapper}>image</div>
-            
-            <div className={styles.modalContent}>
-              <RecordForm/>
-            </div>
+            <h2>{getLabel(mode)}</h2>
+              <div className={styles.modalContent}>
+                {
+                  getView(mode,note,onSubmit,closeModal)
+                }
+              </div>
             <div className={styles.modalActions}>
-
-            <button onClick={closeModal}>Сохранить</button>
-            <button onClick={closeModal}>Отмена</button>
             </div>
           </div>
         </div>
-      )}
     </div>
   );
 };
